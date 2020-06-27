@@ -1,0 +1,13 @@
+/*
+ * Additional changes to the base theme for robthefivenine.github.io
+ */
+
+video {
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.emoji {
+  display: inline-block;
+  margin: auto;
+}

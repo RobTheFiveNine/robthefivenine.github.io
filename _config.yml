@@ -1,0 +1,26 @@
+# Setup
+title:               RT59
+tagline:             'A blog [mostly] about game development'
+description:         'This blog is centered around things I have learned making / prototyping games as well as other things I think will be useful to share around programming in general.'
+url:                 https://robthefivenine.github.io
+baseurl:             ''
+paginate:            5
+permalink:           pretty
+
+# About/contact
+author:
+  name:              RobTheFiveNine
+  url:               https://twitter.com/robthefivenine
+  email:             robthefivenine+blog@protonmail.com
+
+# Gems
+plugins:
+  - jemoji
+  - jekyll-paginate
+
+# Custom vars
+version:             1.1.0
+google_analytics_id: #UA-XXXX-Y
+
+emoji:
+  src: "https://github.githubassets.com/images/icons/"
