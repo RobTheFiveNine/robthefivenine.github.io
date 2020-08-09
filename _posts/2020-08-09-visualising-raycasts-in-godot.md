@@ -53,3 +53,5 @@ Now that the `ImmediateGeometry` node is ready to begin creating the mesh, two c
 An important thing to note about plotting the positions, is that they need to be in local space. All classes that extend `Spatial` have a `to_local` method available to them, which will take a global coordinate and translate it to a local one. For this reason, rather than accessing `raycast.transform.origin`, I use the global transform instead. Likewise, the `Vector3` returned from `raycast.get_collision_point` is in the global coordinate system, and needs to be converted to local.
 
 Finally, calling [ImmediateGeometry->clear](https://docs.godotengine.org/en/stable/classes/class_immediategeometry.html#class-immediategeometry-method-end) will finish the rendering and draw the line on the screen.
+
+You can grab a copy of the sample project at [RobTheFiveNine/godot-raytrace-visualisation-example](https://github.com/RobTheFiveNine/godot-raytrace-visualisation-example).
