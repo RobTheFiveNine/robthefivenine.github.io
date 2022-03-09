@@ -1,0 +1,137 @@
+html {
+  border-top: none !important;
+}
+
+body {
+  font-size: 16px !important;
+}
+
+a.icon {
+  display: inline-block;
+}
+
+#header.post-header {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14px !important;
+  }
+
+  #header #title h1 {
+    display: none;
+  }
+}
+
+body.max-width {
+  max-width: 60rem !important;
+}
+
+@media screen and (max-width: 1440px) {
+  #header-post #toc {
+    display: none;
+  }
+
+  #header-post #actions {
+    display: none;
+  }
+
+  #header-post #menu-icon {
+    display: none;
+  }
+
+  #header-post #menu-icon-tablet:not([style]) {
+    display: block !important;
+  }
+
+  #header-post #menu-icon-tablet[style=""] {
+    display: block !important;
+  }
+
+  #header-post #top-icon-tablet {
+    display: block !important;
+  }
+}
+
+@media screen and (min-width: 1439px) {
+  #header-post #menu-icon-tablet {
+    display: none !important;
+  }
+  #header-post #top-icon-tablet {
+    display: none !important;
+  }
+}
+
+.px3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+
+#header-post #toc .toc-level-2 {
+  font-size: 0.9rem;
+}
+
+#header-post #toc .toc-level-3 {
+  font-size: 0.75rem;
+}
+
+code:not([class]) {
+  font-family: monospace;
+  color: #79ceb1;
+  border-color: #79ceb1;
+}
+
+.content a {
+  background: none !important;
+  font-weight: bold;
+  border-bottom-style: double;
+  text-decoration: none;
+}
+
+.content a:hover, .content a:active, .content a:focus {
+  border-color: #d480aa;
+  color: #d480aa;
+}
+
+#header-post #nav {
+  font-size: 0.9rem;
+}
+
+article .content h2::before {
+  top: -2px !important;
+  left: -1.4rem !important;
+}
+
+#title {
+  margin-top: 22px;
+}
+
+/* Header */
+#nav a {
+  border-bottom: none;
+}
+
+#header #nav ul a:hover {
+  color: #d480aa;
+}
+
+@media screen and (max-width: 480px) {
+  #title {
+    margin-top: 0px;
+  }
+
+  #header #nav ul li.icon {
+    top: 88px !important;
+    right: -2rem !important;
+  }
+}
+
+#header-post #menu {
+  display: block;
+  margin-top: 205px;
+}
+
+#header #logo {
+  margin-right: 15px;
+}

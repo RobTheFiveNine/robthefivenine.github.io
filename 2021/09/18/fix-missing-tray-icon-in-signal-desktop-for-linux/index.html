@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="As of September, 2021, the Signal desktop application does not currently expose a setting in the GUI to minimise the application to the system tray. However, this functionality is available via the CL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fix Missing Tray Icon in Signal Desktop for Linux">
+<meta property="og:url" content="https://robthefivenine.github.io/2021/09/18/fix-missing-tray-icon-in-signal-desktop-for-linux/index.html">
+<meta property="og:site_name" content="RobTheFiveNine">
+<meta property="og:description" content="As of September, 2021, the Signal desktop application does not currently expose a setting in the GUI to minimise the application to the system tray. However, this functionality is available via the CL">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://robthefivenine.github.io/2021/09/18/fix-missing-tray-icon-in-signal-desktop-for-linux/signal.png">
+<meta property="article:published_time" content="2021-09-17T23:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-20T00:10:20.450Z">
+<meta property="article:author" content="RobTheFiveNine">
+<meta property="article:tag" content="troubleshooting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://robthefivenine.github.io/2021/09/18/fix-missing-tray-icon-in-signal-desktop-for-linux/signal.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/logo.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/logo.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+        
+      
+    
+    <!-- title -->
+    <title>Fix Missing Tray Icon in Signal Desktop for Linux</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="RobTheFiveNine" type="application/atom+xml" />
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/theme-overrides.css">
+
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+<link rel="stylesheet" href="/css/prism-overrides.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <span id="menu">
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header" class="post-header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>RobTheFiveNine</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+
+  <hr />
+
+
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Fix Missing Tray Icon in Signal Desktop for Linux
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">RobTheFiveNine</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-17T23:00:00.000Z" itemprop="datePublished">18 Sep 2021</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>As of September, 2021, the Signal desktop application does not currently expose a setting in the GUI to minimise the application to the system tray. However, this functionality is available via the CLI arguments as can be seen documented in <a target="_blank" rel="noopener" href="https://github.com/signalapp/Signal-Desktop/issues/1965">This Thread</a> and <a target="_blank" rel="noopener" href="https://github.com/signalapp/Signal-Desktop/issues/2210">This One</a>.</p>
+<p>It does seem to have been added in the beta build as per <a target="_blank" rel="noopener" href="https://github.com/signalapp/Signal-Desktop/issues/2210#issuecomment-872330273">This Post</a>:</p>
+<blockquote>
+<p>We’ve added “official” system tray support to the latest beta! Please give it a try and report bugs here on GitHub or <a target="_blank" rel="noopener" href="https://community.signalusers.org/t/beta-feedback-for-the-upcoming-desktop-5-8-release/34577">on the community forum</a>.</p>
+<p>If you’re not already on the beta, you can install it side-by-side with the production version. <a target="_blank" rel="noopener" href="https://support.signal.org/hc/articles/360007318471-Signal-Beta">Click here for instructions on how to get started with the beta.</a></p>
+<p>Some details about this feature:</p>
+<ul>
+<li>It is available for Windows and Linux. Go to Signal’s settings to enable “minimize to system tray” or “start minimized to tray”.</li>
+<li>These settings are off by default. We may enable them by default in the future, but have no immediate plans to do so.</li>
+<li>If everything goes smoothly in beta (i.e., no significant bugs), we’ll release it to production Windows users in our next production version.</li>
+<li>Because <a target="_blank" rel="noopener" href="https://www.electronjs.org/docs/api/tray#class-tray">Linux system tray support is quirkier</a>, it will stay in beta for a little while before we make it available to all users—we want to make sure it works well for most people. I don’t have an ETA for when production Linux users will get system tray support.</li>
+<li>The <code>--use-tray-icon</code> and <code>--start-in-tray</code> command line arguments will continue to work on all 3 platforms. These CLI flags take precedence over settings you choose in the UI. It’s possible we’ll remove these command line arguments in the future, but we have no plans to do so, as it doesn’t significantly increase our maintenance burden.</li>
+</ul>
+<p>For posterity, we added system tray support in <a target="_blank" rel="noopener" href="https://github.com/signalapp/Signal-Desktop/commit/af1f2ea44927d92327acda3f20503e7715d4dd89">af1f2ea</a> and <a target="_blank" rel="noopener" href="https://github.com/signalapp/Signal-Desktop/commit/8b30fc17cded16cc7d98f6ebcdd8e5a340d580a5">8b30fc1</a>.</p>
+</blockquote>
+<p>In the meantime, if you don’t want to upgrade to using the beta build, you can add the required CLI arguments by updating the <code>Exec</code> property in <code>/usr/share/applications/signal-desktop.desktop</code> to include <code>--use-tray-icon</code>.</p>
+<p>One caveat when doing this, is that updates to Signal appear to revert this change. One way of working around this (albeit a slightly hacky way), is to make use of the <code>cron.hourly</code> tasks.</p>
+<p>Create a file in <code>/etc/cron.hourly</code> named <code>fix-signal-taskbar</code> with the following content:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/sh</span>
+
+<span class="token function">sed</span> -i <span class="token string">'s/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-sandbox %U/g'</span> /usr/share/applications/signal-desktop.desktop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>Then, run <code>chmod +x /etc/cron.hourly/fix-signal-taskbar</code> to ensure it is executable.</p>
+<p>You can then verify that the script will be executed by using <code>run-parts</code>. Running the command <code>run-parts --test /etc/cron.hourly</code> should list all the scripts that will be executed hourly; included in that should be <code>/etc/cron.hourly/fix-signal-taskbar</code>.</p>
+
+  </div>
+</article>
+
+
+
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    RobTheFiveNine
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+<script src="/js/main.js"></script>
+
+
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+</body>
+</html>

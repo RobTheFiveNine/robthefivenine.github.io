@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="I’ve been prototyping a new game as a means of testing a few things out in Godot and wanted to add a blinking animation to a cat I had drawn. As the sprite is really simple and flat looking, my initia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Creating an Eye Blinking Effect in Godot">
+<meta property="og:url" content="https://robthefivenine.github.io/2020/06/27/creating-eye-blinking-effect-in-godot/index.html">
+<meta property="og:site_name" content="RobTheFiveNine">
+<meta property="og:description" content="I’ve been prototyping a new game as a means of testing a few things out in Godot and wanted to add a blinking animation to a cat I had drawn. As the sprite is really simple and flat looking, my initia">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://robthefivenine.github.io/2020/06/27/creating-eye-blinking-effect-in-godot/cover.png">
+<meta property="article:published_time" content="2020-06-26T23:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-20T00:19:27.277Z">
+<meta property="article:author" content="RobTheFiveNine">
+<meta property="article:tag" content="animation">
+<meta property="article:tag" content="game-dev">
+<meta property="article:tag" content="godot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://robthefivenine.github.io/2020/06/27/creating-eye-blinking-effect-in-godot/cover.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/logo.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/logo.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+        
+      
+    
+    <!-- title -->
+    <title>Creating an Eye Blinking Effect in Godot</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="RobTheFiveNine" type="application/atom+xml" />
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/theme-overrides.css">
+
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+<link rel="stylesheet" href="/css/prism-overrides.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <span id="menu">
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header" class="post-header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>RobTheFiveNine</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+
+  <hr />
+
+
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Creating an Eye Blinking Effect in Godot
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">RobTheFiveNine</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-26T23:00:00.000Z" itemprop="datePublished">27 Jun 2020</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/animation/" rel="tag">animation</a>, <a class="tag-link-link" href="/tags/game-dev/" rel="tag">game-dev</a>, <a class="tag-link-link" href="/tags/godot/" rel="tag">godot</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>I’ve been prototyping a new game as a means of testing a few things out in Godot and wanted to add a blinking animation to a cat I had drawn. As the sprite is really simple and flat looking, my initial idea was to have some kind of circular shape that just filled with a colour to give the illusion of eye lids covering the top of the eyes (as can be seen below in the final result):</p>
+<video width="100%" muted autoplay playsinline loop>
+  <source src="/2020/06/27/creating-eye-blinking-effect-in-godot/blink.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>The problems I faced with this were:</p>
+<ul>
+<li>There didn’t seem to be an easy way to draw a well rounded ellipse (like when creating collission shapes)</li>
+<li>I couldn’t create a “stretchable” sprite due to the shape of the eyes</li>
+</ul>
+<p>My solution was to create a new sprite for each eye and then animate the <code>Region</code> properties. One of the sprites can be found below, if you want to follow along:</p>
+<img src="/2020/06/27/creating-eye-blinking-effect-in-godot/LeftEyeLid.png" class="">
+
+<p>If you create a new <code>Sprite</code> node in Godot and head over to the inspector tab, you will see there is a <code>Region</code> group. The settings within this group will allow you to change the region of a sprite that is drawn to screen.</p>
+<p>For example, if after enabling the <code>Region</code> properties we set the <code>region_rect</code> height property to <code>40</code> (roughly half of the height of the sprite), we can see that Godot now only renders the top half of the sprite:</p>
+<img src="/2020/06/27/creating-eye-blinking-effect-in-godot/region_example.png" class="">
+
+<p>After finding this, it was clear this would help me achieve exactly what I wanted. However, animating just the height property alone was not enough, as everytime the height property is changed, the sprite will move to ensure it is still centered like this:</p>
+<video width="100%" muted autoplay playsinline loop>
+  <source src="/2020/06/27/creating-eye-blinking-effect-in-godot/center_problem.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>My initial solution to the centering issue was to animate the <code>Offset</code> property in the opposing direction, however, whilst writing this post, I realised that there is a much simpler solution - within the <code>Offset</code> properties, there is a <code>Centered</code> property. Disable this, and the anchor point of the sprite will be the top left corner.</p>
+<p>Now, when we animate the <code>region_rect.h</code> property, the top of the sprite will remain in a fixed position, whilst the bottom side of the region will change:</p>
+<video width="100%" muted autoplay playsinline loop>
+  <source src="/2020/06/27/creating-eye-blinking-effect-in-godot/uncentered.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>With the sprite properly configured, creating the animation was as simple as adding a track in an <code>AnimationPlayer</code> for the <code>region_rect</code> property, ensuring the height value starts at <code>0</code>, at the mid point is at full height (I altered this to <code>60</code> as I changed the <code>y</code> offset slightly), and then ends on the last key frame at <code>0</code> again:</p>
+<video width="100%" muted autoplay playsinline loop>
+  <source src="/2020/06/27/creating-eye-blinking-effect-in-godot/working-eyelid.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<p>After repeating this process for both eye lids, and positioning appropriately in front of the cat sprite, the eyes now blink!</p>
+<video width="100%" muted autoplay playsinline loop>
+  <source src="/2020/06/27/creating-eye-blinking-effect-in-godot/blink.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+  </div>
+</article>
+
+
+
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    RobTheFiveNine
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+<script src="/js/main.js"></script>
+
+
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+</body>
+</html>

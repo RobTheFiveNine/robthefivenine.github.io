@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="What is a NoSQL Injection?A NoSQL injection is the NoSQL equivalent to the more commonly known SQL injection. If you’re not familiar with either of these terms - it is the process of abusing an input">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Protecting Against NoSQL Injection in Express">
+<meta property="og:url" content="https://robthefivenine.github.io/2022/02/26/protecting-against-nosql-injection-in-express/index.html">
+<meta property="og:site_name" content="RobTheFiveNine">
+<meta property="og:description" content="What is a NoSQL Injection?A NoSQL injection is the NoSQL equivalent to the more commonly known SQL injection. If you’re not familiar with either of these terms - it is the process of abusing an input">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://robthefivenine.github.io/2022/02/26/protecting-against-nosql-injection-in-express/mongodb.jpeg">
+<meta property="article:published_time" content="2022-02-26T00:55:00.000Z">
+<meta property="article:modified_time" content="2022-02-26T15:31:43.721Z">
+<meta property="article:author" content="RobTheFiveNine">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="security">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://robthefivenine.github.io/2022/02/26/protecting-against-nosql-injection-in-express/mongodb.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/logo.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/logo.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+        
+      
+    
+    <!-- title -->
+    <title>Protecting Against NoSQL Injection in Express</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="RobTheFiveNine" type="application/atom+xml" />
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/theme-overrides.css">
+
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+<link rel="stylesheet" href="/css/prism-overrides.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <span id="menu">
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-NoSQL-Injection"><span class="toc-number">1.</span> <span class="toc-text">What is a NoSQL Injection?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#How-Injections-Come-to-Exist"><span class="toc-number">1.1.</span> <span class="toc-text">How Injections Come to Exist</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protecting-an-Application"><span class="toc-number">2.</span> <span class="toc-text">Protecting an Application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TLDR"><span class="toc-number">3.</span> <span class="toc-text">TLDR</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header" class="post-header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>RobTheFiveNine</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+
+  <hr />
+
+
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Protecting Against NoSQL Injection in Express
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">RobTheFiveNine</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-02-26T00:55:00.000Z" itemprop="datePublished">26 Feb 2022</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/programming/" rel="tag">programming</a>, <a class="tag-link-link" href="/tags/security/" rel="tag">security</a>, <a class="tag-link-link" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="What-is-a-NoSQL-Injection"><a href="#What-is-a-NoSQL-Injection" class="headerlink" title="What is a NoSQL Injection?"></a>What is a NoSQL Injection?</h2><p>A NoSQL injection is the NoSQL equivalent to the more commonly known SQL injection. If you’re not familiar with either of these terms - it is the process of abusing an input that is not correctly validated before being used for database operations.</p>
+<p>The impact of an injection will vary depending on what the operation does, but some plausible results are:</p>
+<ul>
+<li>Bypassing authentication (i.e. logging in as a user without knowing their passphrase)</li>
+<li>Executing code on the server (potentially leading to a full compromise of the server)</li>
+<li>Modifying data that the user should not have write access to</li>
+</ul>
+<h3 id="How-Injections-Come-to-Exist"><a href="#How-Injections-Come-to-Exist" class="headerlink" title="How Injections Come to Exist"></a>How Injections Come to Exist</h3><p>A common design pattern amongst Express applications that utilise libraries like Mongoose or the native MongoDB library is to use the body parser middleware to automatically deserialise JSON bodies into objects that are stored in <code>req.body</code> and subsequently pass this (or a child prop) as the query filter.</p>
+<p>The problem with this, is that it is possible for a malicious user to specify something other than a valid value, and instead add JSON that will be deserialised into a <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/operator/query/">Query &#x2F; Projection Operator</a>.</p>
+<p>A basic theoretical example of this would be, if the <code>username</code> and <code>pass</code> props of <code>req.body</code> were used as the filter for a request that processes a login attempt, like so:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> User <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./UserModel'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span>  <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">await</span> User<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">username</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>username<span class="token punctuation">,</span>
+    <span class="token literal-property property">pass</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>pass<span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Logged in!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Incorrect credentials'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>In this example, a typical request body that would be expected would be something such as :</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"robocop"</span><span class="token punctuation">,</span>
+  <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token string">"ocp1"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>If, however, a user was to submit the following request, they could login as <code>robocop</code> without knowing the password:</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"robocop"</span><span class="token punctuation">,</span>
+  <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"$ne"</span><span class="token operator">:</span> <span class="token string">""</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>By submitting an object with the <code>$ne</code> operator, it changes the query to be the SQL equivalent of:</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> username <span class="token operator">=</span> <span class="token string">'robocop'</span> <span class="token operator">AND</span> pass <span class="token operator">&lt;></span> <span class="token string">''</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>As long as a value exists in the <code>pass</code> field, which it should, the attacker would successfully authenticate as <code>robocop</code>; not good.</p>
+<h2 id="Protecting-an-Application"><a href="#Protecting-an-Application" class="headerlink" title="Protecting an Application"></a>Protecting an Application</h2><p>As already mentioned, a NoSQL injection vulnerability is caused by a lack of validation of user input. Libraries like Mongoose, which define strictly typed models, provide some protection by means of type validation.</p>
+<p>Despite strongly typed models in libraries like Mongoose, they frequently do not do any type checking against queries (like the one constructed in the previous section). As a result, this leaves us with two options:</p>
+<ol>
+<li>Validate that props specified by the user match the expected type</li>
+<li>Check if a prop is an object that contains a reserved operator name (such as <code>$ne</code>)</li>
+</ol>
+<p>Today, I released a library that I have been working on to help provide a catch-all means of protecting against NoSQL injection attacks. The library can be found on <a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine/express-nosql-sanitizer">GitHub</a> and <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/express-nosql-sanitizer">NPM</a>.</p>
+<p>The library provides two operating modes; one which will remove any dangerous looking props (i.e. any prop that starts with <code>$</code>) and another which will remove specifically any props that use the operators listed in the <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/operator/query/">MongoDB Documentation</a> as of 26th February 2022.</p>
+<p>To use the middleware library, first start by adding it to your project:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> express-nosql-sanitizer<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>After adding <code>express-nosql-sanitizer</code> as a dependency, it can be added to your Express stack by requiring the library and passing the middleware to <code>use</code>; like so:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> User <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./UserModel'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> nosqlSanitizer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express-nosql-sanitizer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">nosqlSanitizer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span>  <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token keyword">await</span> User<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">username</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>username<span class="token punctuation">,</span>
+    <span class="token literal-property property">pass</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>pass<span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Logged in!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Incorrect credentials'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>By modifying the example with the above changes, the previous attack which would result in the following query being constructed:</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"robocop"</span><span class="token punctuation">,</span>
+  <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"$ne"</span><span class="token operator">:</span> <span class="token string">""</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Would now, instead, create this query criteria:</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"robocop"</span><span class="token punctuation">,</span>
+  <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>As a result, protecting the application from having dangerous operators make their way into the query. For advanced usage of the library, check the <a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine/express-nosql-sanitizer">GitHub Page</a></p>
+<p>Additionally, if the user input was being passed via <code>req.query</code>, the props would be cleansed too. It should be noted, however, <code>req.params</code> is <em>not</em> cleansed - the reason being, it should not be possible to deserialise objects from <code>req.params</code> without manually writing the code to do so.</p>
+<h2 id="TLDR"><a href="#TLDR" class="headerlink" title="TLDR"></a>TLDR</h2><p>The take away points here are:</p>
+<ul>
+<li>Validate user input as much as possible</li>
+<li>Implement a fallback &#x2F; catch all, like <a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine/express-nosql-sanitizer">express-nosql-sanitizer</a> to deal with cases that slip through the net</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    RobTheFiveNine
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+<script src="/js/main.js"></script>
+
+
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+</body>
+</html>
