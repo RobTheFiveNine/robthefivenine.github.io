@@ -1,0 +1,9 @@
+# npm
+node_modules/
+
+# Hexo fragments
+db.json
+
+# Build fragments
+public/
+.deploy_git/

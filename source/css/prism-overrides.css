@@ -1,0 +1,6 @@
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+	background: #212326 !important;
+  border: none !important;
+  padding: 1.5em !important;
+  font-size: 1.2em;
+}
