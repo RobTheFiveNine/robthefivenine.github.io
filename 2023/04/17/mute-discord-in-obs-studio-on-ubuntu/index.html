@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="If you like to stream gameplay footage to platforms like Twitch, there’s a good chance you’ve run into a very common issue: being unable to join voice chat in order to respect the privacy of others wh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Mute Discord in OBS on Ubuntu 22.10">
+<meta property="og:url" content="https://robthefivenine.github.io/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/index.html">
+<meta property="og:site_name" content="RobTheFiveNine">
+<meta property="og:description" content="If you like to stream gameplay footage to platforms like Twitch, there’s a good chance you’ve run into a very common issue: being unable to join voice chat in order to respect the privacy of others wh">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://robthefivenine.github.io/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/cover.jpeg">
+<meta property="article:published_time" content="2023-04-17T21:28:00.000Z">
+<meta property="article:modified_time" content="2023-04-18T11:46:44.423Z">
+<meta property="article:author" content="RobTheFiveNine">
+<meta property="article:tag" content="gaming">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="streaming">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://robthefivenine.github.io/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/cover.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/logo.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/logo.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+        
+      
+    
+    <!-- title -->
+    <title>How to Mute Discord in OBS on Ubuntu 22.10</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="RobTheFiveNine" type="application/atom+xml" />
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/css/theme-overrides.css">
+
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+<link rel="stylesheet" href="/css/prism-overrides.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <span id="menu">
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Defacto-Windows-x2F-macOS-Solution"><span class="toc-number">1.</span> <span class="toc-text">The [Defacto] Windows &#x2F; macOS Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Linux-Solution"><span class="toc-number">2.</span> <span class="toc-text">The Linux Solution</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        <header id="header" class="post-header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>RobTheFiveNine</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+
+  <hr />
+
+
+
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How to Mute Discord in OBS on Ubuntu 22.10
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">RobTheFiveNine</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-17T21:28:00.000Z" itemprop="datePublished">17 Apr 2023</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/gaming/" rel="tag">gaming</a>, <a class="tag-link-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link-link" href="/tags/streaming/" rel="tag">streaming</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>If you like to stream gameplay footage to platforms like Twitch, there’s a good chance you’ve run into a very common issue: being unable to join voice chat in order to respect the privacy of others who may not want to be heard on stream.</p>
+<h2 id="The-Defacto-Windows-x2F-macOS-Solution"><a href="#The-Defacto-Windows-x2F-macOS-Solution" class="headerlink" title="The [Defacto] Windows &#x2F; macOS Solution"></a>The [Defacto] Windows &#x2F; macOS Solution</h2><p>As OBS picks up any audio going through to the selected audio device, there is no means of it filtering audio from specific applications. There is a some what widely known solution to this for Windows and macOS users that can be achieved by using <a target="_blank" rel="noopener" href="https://vb-audio.com/Cable/">VB-Cable</a>.</p>
+<p>VB-Cable works by allowing you to setup a virtual audio device which can then be listened to via your physical audio device. By doing this, it means you can configure your game to output to the virtual audio device and tell OBS to record audio from <em>that</em> device instead of your physical one. As your physical device plays back what is being received by the virtual device, however, you are still able to hear everything. Providing you leave Discord (or any other application, for that matter) to output via the physical audio device, rather than the virtual one, then OBS will be unable to hear anything output by Discord.</p>
+<h2 id="The-Linux-Solution"><a href="#The-Linux-Solution" class="headerlink" title="The Linux Solution"></a>The Linux Solution</h2><p>Unfortunately, VB-Cable [at the time of writing] is only available on Windows and macOS; <strong>but</strong> - if you are using a Linux distribution that is utilising PipeWire, there is a built in solution!</p>
+<p>As of Ubuntu 22.10, PipeWire is the default audio server and is also now the default audio server for Fedora and Pop! OS. If you’re unsure if the distro you are using uses PipeWire, take a quick look at your running processes:</p>
+<pre class="line-numbers language-none"><code class="language-none">$ ps x | grep pipewire
+   2263 ?        S&lt;sl   1:19 &#x2F;usr&#x2F;bin&#x2F;pipewire
+   2266 ?        S&lt;sl   2:26 &#x2F;usr&#x2F;bin&#x2F;pipewire-pulse<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>Providing you are using PipeWire, you can create a new virtual device that will output to your default audio output by opening a terminal and running:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pw-loopback <span class="token parameter variable">-m</span> <span class="token string">'[ FL FR]'</span> --capture-props<span class="token operator">=</span><span class="token string">'media.class=Audio/Sink'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>After running <code>pw-loopback</code>, you should now see a new audio playback device available in your settings, as can be seen in the below screenshot (see device <code>pw-loopback-41686</code>):</p>
+<img src="/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/pipewire-loopback.jpg" class="">
+
+<p>Now, as the <code>Line Out</code> device is my default audio output device, any audio that is sent to <code>pw-loopback-41686</code> will be audible through <code>Line Out</code>, but audio going via <code>Line Out</code> will not be audible through <code>pw-loopback-41686</code>.</p>
+<p>It is worth noting, if you close the terminal that is running <code>pw-loopback</code>, the device will no longer be available, you need to leave <code>pw-loopback</code> running for the duration of your stream.</p>
+<p>Next, head over to OBS, and click the ellipsis button for <code>Desktop Audio</code> in the Audio Mixer section (or whichever output you have chosen to monitor) and click <code>Properties</code>.</p>
+<img src="/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/obs-audio-mixer.jpg" class="">
+
+<p>In the dialog window that is now displayed, ensure you choose the loopback device that was created by <code>pw-loopback</code> and hit OK.</p>
+<img src="/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/audio-properties-obs.jpg" class="">
+
+<p>Congratulations, OBS will now only record applications that are outputting audio to the loopback device!</p>
+<p>Unfortunately, some games will not allow you to choose a playback device to use, and will instead use the default audio device instead. There is, however, a way around this too! Open your audio settings and take a look around for the playback streams. For each stream that appears, you will be able to choose which audio sink should be used. Simply find the playback stream for the game you are playing and select the <code>pw-loopback</code> device created earlier and the audio will now be piped to it rather than the default:</p>
+<img src="/2023/04/17/mute-discord-in-obs-studio-on-ubuntu/output-override.jpg" class="">
+  </div>
+</article>
+
+
+
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    RobTheFiveNine
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/RobTheFiveNine">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+<script src="/js/main.js"></script>
+
+
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+</body>
+</html>

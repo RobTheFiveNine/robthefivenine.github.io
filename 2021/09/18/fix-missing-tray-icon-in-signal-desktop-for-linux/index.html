@@ -57,7 +57,7 @@
 <link rel="stylesheet" href="/css/prism-dracula.css">
 
 <link rel="stylesheet" href="/css/prism-overrides.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -161,7 +161,7 @@
 <p>Create a file in <code>/etc/cron.hourly</code> named <code>fix-signal-taskbar</code> with the following content:</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/sh</span>
 
-<span class="token function">sed</span> -i <span class="token string">'s/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-sandbox %U/g'</span> /usr/share/applications/signal-desktop.desktop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-sandbox %U/g'</span> /usr/share/applications/signal-desktop.desktop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>Then, run <code>chmod +x /etc/cron.hourly/fix-signal-taskbar</code> to ensure it is executable.</p>
 <p>You can then verify that the script will be executed by using <code>run-parts</code>. Running the command <code>run-parts --test /etc/cron.hourly</code> should list all the scripts that will be executed hourly; included in that should be <code>/etc/cron.hourly/fix-signal-taskbar</code>.</p>
