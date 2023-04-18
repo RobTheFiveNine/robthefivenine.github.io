@@ -1,7 +1,7 @@
 ---
 title: How to Mute Discord in OBS on Ubuntu 22.10
 date: 2023-04-17 22:28:00
-thumbnail: cover.jpeg
+thumbnail: cover.png
 tags:
   - gaming
   - linux
