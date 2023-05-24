@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://robthefivenine.github.io/2021/09/18/fix-missing-tray-icon-in-signal-desktop-for-linux/signal.png">
 <meta property="article:published_time" content="2021-09-17T23:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-20T00:10:20.450Z">
+<meta property="article:modified_time" content="2023-05-24T10:18:46.791Z">
 <meta property="article:author" content="RobTheFiveNine">
 <meta property="article:tag" content="troubleshooting">
 <meta name="twitter:card" content="summary">
@@ -165,7 +165,52 @@
 
 <p>Then, run <code>chmod +x /etc/cron.hourly/fix-signal-taskbar</code> to ensure it is executable.</p>
 <p>You can then verify that the script will be executed by using <code>run-parts</code>. Running the command <code>run-parts --test /etc/cron.hourly</code> should list all the scripts that will be executed hourly; included in that should be <code>/etc/cron.hourly/fix-signal-taskbar</code>.</p>
+<p>Alternatively, if you are using a Debian based distro that uses <code>apt</code>, you can instead use the <code>Post-Invoke</code> hook to run the command whenever <code>apt upgrade</code> is executed instead. To do this, create the file <code>/etc/apt/apt.conf.d/100-fix-signal-taskbar</code> and add the following content into it:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">DPkg::Post-Invoke <span class="token punctuation">&#123;</span><span class="token string">"sed -i 's/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-sandbox %U/g' /usr/share/applications/signal-desktop.desktop"</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<p>As can be seen in the sample output below, when <code>apt upgrade</code> is executed, it will automatically patch the desktop file:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">desktop :: ~ % <span class="token function">cat</span> /usr/share/applications/signal-desktop.desktop
+<span class="token punctuation">[</span>Desktop Entry<span class="token punctuation">]</span>
+<span class="token assign-left variable">Name</span><span class="token operator">=</span>Signal
+<span class="token assign-left variable">Exec</span><span class="token operator">=</span>/opt/Signal/signal-desktop --no-sandbox %U
+<span class="token assign-left variable">Terminal</span><span class="token operator">=</span>false
+<span class="token assign-left variable">Type</span><span class="token operator">=</span>Application
+<span class="token assign-left variable">Icon</span><span class="token operator">=</span>signal-desktop
+<span class="token assign-left variable">StartupWMClass</span><span class="token operator">=</span>Signal
+<span class="token assign-left variable">Comment</span><span class="token operator">=</span>Private messaging from your desktop
+<span class="token assign-left variable">MimeType</span><span class="token operator">=</span>x-scheme-handler/sgnl<span class="token punctuation">;</span>x-scheme-handler/signalcaptcha<span class="token punctuation">;</span>
+<span class="token assign-left variable">Categories</span><span class="token operator">=</span>Network<span class="token punctuation">;</span>InstantMessaging<span class="token punctuation">;</span>Chat<span class="token punctuation">;</span>
+
+desktop :: ~ % <span class="token function">sudo</span> <span class="token function">apt</span> upgrade
+Reading package lists<span class="token punctuation">..</span>. Done
+Building dependency tree<span class="token punctuation">..</span>. Done
+Reading state information<span class="token punctuation">..</span>. Done
+Calculating upgrade<span class="token punctuation">..</span>. Done
+The following packages will be upgraded:
+  signal-desktop
+<span class="token number">1</span> to upgrade, <span class="token number">0</span> to newly install, <span class="token number">0</span> to remove and <span class="token number">0</span> not to upgrade.
+Need to get <span class="token number">0</span> B/111 MB of archives.
+After this operation, <span class="token number">152</span> kB of additional disk space will be used.
+Do you want to continue? <span class="token punctuation">[</span>Y/n<span class="token punctuation">]</span> y
+<span class="token punctuation">(</span>Reading database <span class="token punctuation">..</span>. <span class="token number">234960</span> files and directories currently installed.<span class="token punctuation">)</span>
+Preparing to unpack <span class="token punctuation">..</span>./signal-desktop_6.18.1_amd64.deb <span class="token punctuation">..</span>.
+Unpacking signal-desktop <span class="token punctuation">(</span><span class="token number">6.18</span>.1<span class="token punctuation">)</span> over <span class="token punctuation">(</span><span class="token number">6.18</span>.0<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
+Setting up signal-desktop <span class="token punctuation">(</span><span class="token number">6.18</span>.1<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
+Processing triggers <span class="token keyword">for</span> desktop-file-utils <span class="token punctuation">(</span><span class="token number">0.26</span>-1ubuntu5<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
+Processing triggers <span class="token keyword">for</span> hicolor-icon-theme <span class="token punctuation">(</span><span class="token number">0.17</span>-2<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
+Processing triggers <span class="token keyword">for</span> mailcap <span class="token punctuation">(</span><span class="token number">3.70</span>+nmu1ubuntu1<span class="token punctuation">)</span> <span class="token punctuation">..</span>.
+
+desktop :: ~ % <span class="token function">cat</span> /usr/share/applications/signal-desktop.desktop
+<span class="token punctuation">[</span>Desktop Entry<span class="token punctuation">]</span>
+<span class="token assign-left variable">Name</span><span class="token operator">=</span>Signal
+<span class="token assign-left variable">Exec</span><span class="token operator">=</span>/opt/Signal/signal-desktop --use-tray-icon --no-sandbox %U
+<span class="token assign-left variable">Terminal</span><span class="token operator">=</span>false
+<span class="token assign-left variable">Type</span><span class="token operator">=</span>Application
+<span class="token assign-left variable">Icon</span><span class="token operator">=</span>signal-desktop
+<span class="token assign-left variable">StartupWMClass</span><span class="token operator">=</span>Signal
+<span class="token assign-left variable">Comment</span><span class="token operator">=</span>Private messaging from your desktop
+<span class="token assign-left variable">MimeType</span><span class="token operator">=</span>x-scheme-handler/sgnl<span class="token punctuation">;</span>x-scheme-handler/signalcaptcha<span class="token punctuation">;</span>
+<span class="token assign-left variable">Categories</span><span class="token operator">=</span>Network<span class="token punctuation">;</span>InstantMessaging<span class="token punctuation">;</span>Chat<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
   </div>
 </article>
 
