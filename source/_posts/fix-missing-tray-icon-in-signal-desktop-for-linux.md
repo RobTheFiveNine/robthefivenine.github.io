@@ -39,3 +39,56 @@ sed -i 's/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-san
 Then, run `chmod +x /etc/cron.hourly/fix-signal-taskbar` to ensure it is executable.
 
 You can then verify that the script will be executed by using `run-parts`. Running the command `run-parts --test /etc/cron.hourly` should list all the scripts that will be executed hourly; included in that should be `/etc/cron.hourly/fix-signal-taskbar`.
+
+Alternatively, if you are using a Debian based distro that uses `apt`, you can instead use the `Post-Invoke` hook to run the command whenever `apt upgrade` is executed instead. To do this, create the file `/etc/apt/apt.conf.d/100-fix-signal-taskbar` and add the following content into it:
+
+```bash
+DPkg::Post-Invoke {"sed -i 's/signal-desktop --no-sandbox %U/signal-desktop --use-tray-icon --no-sandbox %U/g' /usr/share/applications/signal-desktop.desktop";};
+```
+
+As can be seen in the sample output below, when `apt upgrade` is executed, it will automatically patch the desktop file:
+
+```bash
+desktop :: ~ % cat /usr/share/applications/signal-desktop.desktop
+[Desktop Entry]
+Name=Signal
+Exec=/opt/Signal/signal-desktop --no-sandbox %U
+Terminal=false
+Type=Application
+Icon=signal-desktop
+StartupWMClass=Signal
+Comment=Private messaging from your desktop
+MimeType=x-scheme-handler/sgnl;x-scheme-handler/signalcaptcha;
+Categories=Network;InstantMessaging;Chat;
+
+desktop :: ~ % sudo apt upgrade
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  signal-desktop
+1 to upgrade, 0 to newly install, 0 to remove and 0 not to upgrade.
+Need to get 0 B/111 MB of archives.
+After this operation, 152 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+(Reading database ... 234960 files and directories currently installed.)
+Preparing to unpack .../signal-desktop_6.18.1_amd64.deb ...
+Unpacking signal-desktop (6.18.1) over (6.18.0) ...
+Setting up signal-desktop (6.18.1) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu5) ...
+Processing triggers for hicolor-icon-theme (0.17-2) ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+
+desktop :: ~ % cat /usr/share/applications/signal-desktop.desktop
+[Desktop Entry]
+Name=Signal
+Exec=/opt/Signal/signal-desktop --use-tray-icon --no-sandbox %U
+Terminal=false
+Type=Application
+Icon=signal-desktop
+StartupWMClass=Signal
+Comment=Private messaging from your desktop
+MimeType=x-scheme-handler/sgnl;x-scheme-handler/signalcaptcha;
+Categories=Network;InstantMessaging;Chat;
+```
